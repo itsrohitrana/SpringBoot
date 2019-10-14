@@ -1,4 +1,4 @@
-package com.spring.start.z_startup.controller;
+package com.spring.start.z_startup.configuration;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;

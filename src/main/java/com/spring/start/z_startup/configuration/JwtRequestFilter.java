@@ -1,4 +1,4 @@
-package com.spring.start.z_startup.controller;
+package com.spring.start.z_startup.configuration;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.spring.start.z_startup.service.UserService;
+import com.spring.start.z_startup.serviceImpl.JwtUserDetailsService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 

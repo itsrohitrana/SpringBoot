@@ -1,4 +1,4 @@
-package com.spring.start.z_startup.controller;
+package com.spring.start.z_startup.dto.request;
 
 import java.io.Serializable;
 
