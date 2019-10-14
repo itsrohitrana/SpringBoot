@@ -39,7 +39,19 @@ public class UserServiceImpl implements UserService {
 		populateUser(userRequestDTO, user);
 		return userDao.save(user);
 	}
-
+	
+	@Override
+	public UserRequestDTO loadUserByUsername(String name) throws Exception  {
+		logger.info("inside serviec to get user.");
+		UserRequestDTO userRequestDTO = new UserRequestDTO();
+		User userData = userDao.findByName(name);
+		if (userData != null) {
+			throw new Exception("User Not Found.");
+		}
+		populateUserDto(userRequestDTO, userData);
+		return userRequestDTO;
+	}
+	
 	private void populateUser(UserRequestDTO userRequestDTO, User user) {
 		user.setEmail(userRequestDTO.getEmail());
 		user.setName(userRequestDTO.getName());
@@ -54,6 +66,11 @@ public class UserServiceImpl implements UserService {
 		permissions.add(permission2);
 		user.setPermissions(permissions);
 	}
-
+	private void populateUserDto(UserRequestDTO userRequestDTO, User user) {
+		userRequestDTO.setEmail(user.getEmail());
+		userRequestDTO.setName(user.getName());
+		userRequestDTO.setPassword(Base64.getEncoder().encodeToString((user.getPassword().getBytes())));
+		
+	}
 	
 }

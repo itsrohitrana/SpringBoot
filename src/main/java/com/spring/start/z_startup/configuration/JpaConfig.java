@@ -1,6 +1,8 @@
 package com.spring.start.z_startup.configuration;
 
 import java.util.Properties;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -19,6 +21,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+
 /**
  * this class is used for the database connection. It loads the property file
  * from classpath and inject it.
@@ -28,28 +31,30 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource(value = { "classpath:database.properties" })
+//@PropertySource(value = { "classpath:application.properties" })
 public class JpaConfig implements InitializingBean, DisposableBean{
-
-	@Value("${spring.user.datasource.driver-class-name}")
+	
+	
+	
+//	@Value("${spring.user.datasource.driver-class-name}")
 	private String databaseDriver;
 
-	@Value("${spring.datasource.url}")
+//	@Value("${spring.datasource.url}")
 	private String databaseURL;
 
-	@Value("${spring.datasource.username}")
+//	@Value("${spring.datasource.username}")
 	private String databaseUserName;
 
-	@Value("${spring.datasource.password}")
+//	@Value("${spring.datasource.password}")
 	private String databasePassword;
 
-	@Value("${spring.jpa.hibernate.ddl-auto}")
+//	@Value("${spring.jpa.hibernate.ddl-auto}")
 	private String hibernateDDLAuto;
 	
-	@Value("${spring.jpa.properties.hibernate.dialect}")
+//	@Value("${spring.jpa.properties.hibernate.dialect}")
 	private String hibernateDialect;
 	
-	@Value("${spring.jpa.show-sql}")
+//	@Value("${spring.jpa.show-sql}")
 	private String hibernateShowSQL;
 
 	@Bean
@@ -68,10 +73,19 @@ public class JpaConfig implements InitializingBean, DisposableBean{
 		return em;
 	}
 
+	
+	
+
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		// dataSource.setDriverClassName(databaseDriver);
+		 ResourceBundle res = PropertyResourceBundle.getBundle("application");
+		databaseDriver = res.getString("spring.user.datasource.driver-class-name");
+		databaseURL =  res.getString("spring.datasource.url");
+		databaseUserName = res.getString("spring.datasource.username");
+		databasePassword = res.getString("spring.datasource.password");
+		 dataSource.setDriverClassName(databaseDriver);
+		 
 		dataSource.setUrl(databaseURL);
 		dataSource.setUsername(databaseUserName);
 		dataSource.setPassword(databasePassword);
@@ -93,15 +107,19 @@ public class JpaConfig implements InitializingBean, DisposableBean{
 
 	private Properties additionalProperties() {
 		Properties properties = new Properties();
+		 ResourceBundle res = PropertyResourceBundle.getBundle("application");
+		hibernateDDLAuto = res.getString("spring.jpa.hibernate.ddl-auto");
+		hibernateDialect = res.getString("spring.jpa.properties.hibernate.dialect");
+		hibernateShowSQL = res.getString("spring.jpa.show-sql");
 		properties.setProperty("hibernate.hbm2ddl.auto", hibernateDDLAuto);
 		properties.setProperty("hibernate.dialect", hibernateDialect);
 		// properties.setProperty("hibernate.current_session_context_class",
-		// env.getProperty("spring.jpa.properties.hibernate.current_session_context_class"));
+		// env.getString("spring.jpa.properties.hibernate.current_session_context_class"));
 		// properties.setProperty("hibernate.jdbc.lob.non_contextual_creation",
-		// env.getProperty("spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation"));
+		// env.getString("spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation"));
 		properties.setProperty("hibernate.show_sql", hibernateShowSQL);
 		// properties.setProperty("hibernate.format_sql",
-		// env.getProperty("spring.jpa.properties.hibernate.format_sql"));
+		// env.getString("spring.jpa.properties.hibernate.format_sql"));
 		return properties;
 	}
 

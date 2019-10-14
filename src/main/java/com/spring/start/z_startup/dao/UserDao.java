@@ -13,7 +13,7 @@ import com.spring.start.z_startup.entity.User;
 public interface UserDao extends JpaRepository<User, Integer> {
 
 	User findByEmail(String email);
-
+	User findByName(String Name);
 	@EntityGraph(value = "users.permissions", type = EntityGraphType.LOAD)
 	Optional<User> getById(int id);
 
