@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.spring.start.z_startup.entity.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -50,9 +51,9 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	//generate token for user
-	public String generateToken(UserDetails userDetails) {
+	public String generateToken(User userDetails) {
 		Map<String, Object> claims = new HashMap<>();
-		return doGenerateToken(claims, userDetails.getUsername());
+		return doGenerateToken(claims, userDetails.getEmail());
 	}
 
 	//while creating the token -
